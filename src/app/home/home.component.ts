@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   greetinganime: boolean = false;
   keyState: { [key: string]: boolean } = {}; 
   scale: number = 1;
+  fly: boolean = false;
 
   ngOnInit(): void {
     this.updatePosition();
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit {
       this.scale = -1;
     }
     console.log(this.scale)
+    this.fly = this.keyState['z'];
     this.greetinganime = this.keyState['q'] || this.keyState['d'];
     window.requestAnimationFrame(() => this.updatePosition());
   }
