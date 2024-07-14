@@ -44,9 +44,8 @@ export class HomeComponent implements OnInit {
       this.xpos = Math.min(this.xpos + this.step, 100);
       this.scale = -1;
     }
-    console.log(this.scale)
-    this.fly = this.keyState['z'];
-    this.greetinganime = this.keyState['q'] || this.keyState['d'];
+    this.fly = this.keyState['z'] && (this.keyState['q'] || this.keyState['d']);
+    this.greetinganime = ((this.keyState['q'] || this.keyState['d']) && !(this.fly));
     window.requestAnimationFrame(() => this.updatePosition());
   }
 }
