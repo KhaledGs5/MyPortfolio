@@ -16,19 +16,46 @@
     position: relative;
     height: 300px;
     width: 300px;
-    background: url("E:/Portfolio/Portfolio/src/assets/WalkSeq.png");
-    background-size: 4000% auto; 
+    background-size: 88% auto; 
+    transition: transform 0.1s ease;
 }
 
-.animate {
-    animation: animateChar 2.3s steps(45) infinite;
+
+.WalkAnimation {
+    animation: Walk 2.3s steps(45) forwards;
 }
 
-@keyframes animateChar {
+@keyframes Walk {
     0% {
         background-position: 0px 0px;
     }
     100% {
         background-position: -60000px 0px;
+    }
+}
+
+.FlyAnimation {
+    animation: Fly 0.2s steps(10) forwards;
+}
+  
+@keyframes Fly {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: -2700px 0px;
+    }
+}
+
+.FlynFlameAnimation{
+    animation: FlyandFlame 0.2s steps(16) infinite; 
+}
+
+@keyframes FlyandFlame {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: -4320px 0px;
     }
 }
