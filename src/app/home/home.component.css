@@ -1,28 +1,159 @@
-.Greeting_Cont{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: auto;
-    width: 100vw;
-}
 
-#Greeting {
-    font-size: 50px;
-    color: rgb(168, 127, 77);
+#Guide {
+    font-size: 30px;
+    font-family: serif;
+    font-weight: bold;
+    color: rgb(120, 129, 174);
+    position: absolute;
+    z-index: 5;
+    width: auto;
+    height: 20px;
+    animation: float 2s ease-in-out infinite;
 }
 
 #Character {
-    position: relative;
+    position: absolute;
+    transition: transform 0.2s ease;
+    z-index: 10;
+    width : 300px;
     height: 300px;
-    width: 300px;
-    background-size: 88% auto; 
-    transition: transform 0.1s ease;
+}
+
+.Planet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 5;
+    background-repeat: no-repeat;
+    background-size: cover;
+    animation: float 3s ease-in-out infinite;
+    transition: all 0.3s;
+}
+
+.Ground {
+    position : absolute;
+    z-index: 10;
+    left : 0;
+    top: 1957px;
+    width: 1050px;
+    height: 180px;
+    background: url('../../assets/Ground.png');
+    background-size: cover;
+}
+
+#Grd1 {
+    left: 1030px;
+    transform: scaleX(-1);
+}
+
+#Grd2 {
+    left: 2076px;
+}
+
+#Message { 
+    position : absolute;
+    z-index: 10;
+    height: 180px;
+    background-size: cover;
+    transition: width 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#Container {
+    position: relative;
+    z-index: 6;
+    border-radius: 20px;
+    transition: all 0.5s;
+    padding: 10px;
+}
+
+#Info {
+    position : absolute;
+    z-index: 10;
+    transition: all 0.1s ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: float 3s ease-in-out infinite;
+}
+
+#MyDesc {
+    position: absolute;
+    z-index: 10;
+    transition: all 0.2s;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: lightgray;
+    overflow: hidden;
+    background-color: rgb(34, 34, 60);
+    border-radius: 20px;
+    padding: 10px;
+    border: 3px solid white;
+    animation: float 3s ease-in-out infinite;
+}
+
+#Gmail {
+    position: absolute;
+    z-index: 10;
+    transition: width 0.2s;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: lightgray;
+    overflow: hidden;
+    background-color: rgb(34, 34, 60);
+    border-radius: 20px;
+    padding: 10px;
+    border: 3px solid white;
+    animation: float 3s ease-in-out infinite;
 }
 
 
+#MyImg {
+    position: absolute;
+    z-index: 10;
+    transition: all 0.2s;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 3px solid white;
+    background: url('../../assets/Myimage.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    animation: float 3s ease-in-out infinite;
+}
+
+#InfoMessage {
+    position: absolute; 
+    top: 0px; 
+    left: 150px; 
+    font-size: 20px; 
+    font-weight: bold; 
+    color: aliceblue;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(5px, -5px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
 .WalkAnimation {
-    animation: Walk 2.3s steps(45) forwards;
+    animation: Walk 0.5s steps(45) infinite;
 }
 
 @keyframes Walk {
@@ -30,12 +161,12 @@
         background-position: 0px 0px;
     }
     100% {
-        background-position: -60000px 0px;
+        background-position: -13500px 0px;
     }
 }
 
 .FlyAnimation {
-    animation: Fly 0.2s steps(10) forwards;
+    animation: Fly 0.2s steps(9) forwards;
 }
   
 @keyframes Fly {
@@ -56,6 +187,64 @@
       background-position: 0px 0px;
     }
     100% {
-      background-position: -4320px 0px;
+      background-position: -4800px 0px;
     }
 }
+
+.GreetingAnimation {
+    animation: Greeting 1s steps(29) forwards;
+}
+
+@keyframes Greeting {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: -8700px 0px;
+    }
+}
+
+.SeeInfoAnimation {
+    animation: SeeInfo 0.2s steps(9) forwards;
+}
+
+@keyframes SeeInfo {
+    0% {
+      background-position: -0px 0px;
+    }
+    100% {
+      background-position: -2700px 0px;
+    }
+}
+
+.DontSeeInfoAnimation {
+    animation: DontSeeInfo 0.2s steps(9) forwards;
+}
+
+@keyframes DontSeeInfo {
+    0% {
+        background-position: -2700px 0px;
+    }
+    100% {
+        background-position: -0px 0px;
+    }
+}
+
+.Floating {
+    animation: yfloat 3s ease-in-out infinite;
+}
+
+@keyframes yfloat {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+
+

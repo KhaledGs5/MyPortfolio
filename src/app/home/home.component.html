@@ -1,12 +1,186 @@
-<app-navbar></app-navbar>
-<div class="Greeting_Cont">  
-    <p id="Greeting">Welcome to My Portfolio</p>
-</div>
+
+<p id="Guide"
+    style="left: 100px; top: 1600px;" 
+    >Go Up To Discover The Portfolio</p>
+
 <div id="Character" 
-     [ngStyle]="{ 'left.%': xpos, 'top.%': ypos, 'transform': 'scaleX(' + scale + ')', 
-                  'background-image': 'url(\'assets/' + sprite + '\')',
-                  'background-size': size + '% auto',
-                }"
-     [ngClass]="getAnimationClass()">
+    [ngStyle]="{
+        'left': xpos + 'px', 
+        'top': ypos + 'px', 
+        'transform': 'scaleX(' + scale + ') rotate(' + -rotangle + 'deg)', 
+        'background-image': 'url(\'assets/' + sprite + '\')',
+    }"
+    [ngClass]="getAnimationClass()">
 </div>
-<app-footer></app-footer>
+<div id="Message"
+    [ngStyle]="{ 
+        'width': MessageWidth + 'px',
+        'left' : (xpos + 180) + 'px', 
+        'top' : (ypos - 10) + 'px', 
+        'background-image': 'url(\'assets/' + messageimg + '\')',
+    }"
+    >
+</div>
+<div id="Container"
+    [ngStyle]="{
+        'left' : (xpos + 230) - ((scale === 1) ? 500 : 0) + 'px', 
+        'top' : (ypos - 200) + 'px',
+        'width': InfoWidth*8 + 'px',
+        'height': InfoHeight*7 +'px',
+        'visibility': (seeinfo ? 'visible' : 'hidden'), 
+    }"
+>
+    <div id="MyDesc"
+    [ngStyle]="{
+        'width': InfoWidth*6 + 'px',
+        'visibility': (seeinfo ? 'visible' : 'hidden'),
+        'left' : 0 + 'px', 
+        'top' : 140 + 'px',
+    }"
+    >
+        &nbsp;<span style="color: lightblue;">Khaled&nbsp;Gassara</span> <br>
+        <span>Computer&nbsp;Science&nbsp;Student</span>
+        <p style="color: azure; font-size: medium;">
+            Hello&nbsp;I'm&nbsp;Khaled&nbsp;Gassara,&nbsp;a <br>
+            third-year&nbsp;student&nbsp;at&nbsp;the&nbsp;National <br>
+            School&nbsp;of&nbsp;Computer&nbsp;Science&nbsp;(ENSI),<br>Tunisia.<br><br>
+            <a style="text-decoration: none; color: antiquewhite;">&nbsp;&nbsp;Tel&nbsp;:&nbsp;+216&nbsp;50&nbsp;424&nbsp;900</a>
+        </p>
+    </div>
+
+    <div id="MyImg"    
+        [ngStyle]="{
+            'width': InfoWidth*2.56 + 'px',
+            'height': InfoHeight*2.56 +'px',
+            'visibility': (seeinfo ? 'visible' : 'hidden'),
+            'left' : 0 + 'px', 
+            'top' : 0 + 'px',
+        }"
+        >
+
+    </div>
+
+    <a href="https://www.linkedin.com/in/khaled-gassara/" id="Info"
+        (mouseover)="infoselected = 'Linkedin'"
+        [ngStyle]="{ 
+            'width': InfoWidth + ((infoselected === 'Linkedin') ? 2 : 0) + 'px',
+            'height': InfoHeight + ((infoselected === 'Linkedin') ? 2 : 0) +'px',
+            'left' : 350 - ((scale === 1) ? 430 : 0) + 'px', 
+            'top' : 0 + 'px',
+            'visibility': (seeinfo ? 'visible' : 'hidden'),
+            'border': ((infoselected === 'Linkedin') ? 4 : 0) + 'px solid white',
+        }"
+        style="background-image: url(../../assets/LinkedinLogo.png);"
+        target="_blank"
+    >
+    </a>
+
+    <a href="https://www.facebook.com/khaledgassara55" id="Info"
+        (mouseover)="infoselected = 'Facebook'"
+        [ngStyle]="{ 
+            'width': InfoWidth + ((infoselected === 'Facebook') ? 2 : 0) + 'px',
+            'height': InfoHeight + ((infoselected === 'Facebook') ? 2 : 0) +'px',
+            'left' : 350 - ((scale === 1) ? 430 : 0) + 'px', 
+            'top' : 70 + 'px',
+            'visibility': (seeinfo ? 'visible' : 'hidden'),
+            'border': ((infoselected === 'Facebook') ? 4 : 0) + 'px solid white',
+        }"
+        style="background-image: url(../../assets/FacebookLogo.png);"
+        target="_blank"
+    >
+    </a>
+
+    <a href="https://codeforces.com/profile/KhaledGs" id="Info"
+        (mouseover)="infoselected = 'CodeForces'"
+        [ngStyle]="{ 
+            'width': InfoWidth + ((infoselected === 'CodeForces') ? 2 : 0) + 'px',
+            'height': InfoHeight + ((infoselected === 'CodeForces') ? 2 : 0) + 'px',
+            'left' : 350 - ((scale === 1) ? 430 : 0) + 'px', 
+            'top' : 140 + 'px',
+            'visibility': (seeinfo ? 'visible' : 'hidden'),
+            'border': ((infoselected === 'CodeForces') ? 4 : 0) + 'px solid white',
+        }"
+        style="background-image: url(../../assets/CodeForcesLogo.png);"
+        target="_blank"
+    >
+    </a>
+
+    <a href="https://github.com/KhaledGs5" id="Info"
+        (mouseover)="infoselected = 'Github'"
+        [ngStyle]="{ 
+            'width': InfoWidth + ((infoselected === 'Github') ? 2 : 0) + 'px',
+            'height': InfoHeight + ((infoselected === 'Github') ? 2 : 0) + 'px',
+            'left' : 350 - ((scale === 1) ? 430 : 0) + 'px', 
+            'top' : 210 + 'px',
+            'visibility': (seeinfo ? 'visible' : 'hidden'),
+            'border': ((infoselected === 'Github') ? 4 : 0) + 'px solid white',
+        }"
+        style="background-image: url(../../assets/GithubLogo.png);"
+        target="_blank"
+    >
+    </a>
+
+    <div id="Info"
+    (mouseover)="infoselected = 'Gmail'"
+    [ngStyle]="{ 
+        'width': InfoWidth + ((infoselected === 'Gmail') ? 2 : 0) + 'px',
+        'height': InfoHeight + ((infoselected === 'Gmail') ? 2 : 0) + 'px',
+        'left' : 350 - ((scale === 1) ? 430 : 0) + 'px', 
+        'top' : 280 + 'px',
+        'visibility': (seeinfo ? 'visible' : 'hidden'),
+        'border': ((infoselected === 'Gmail') ? 4 : 0) + 'px solid white',
+    }"
+    style="background-image: url(../../assets/GmailLogo.png); opacity: 0.9;"
+    target="_blank"
+    >
+    </div>
+    <div id="Gmail" style="top: 288px;"
+        [ngStyle]="{
+            'left': 420 - ((scale === 1) ? 750 : 0) + 'px',
+            'width': (showEmail ? 210 : 0) + 'px',
+            'visibility': ((seeinfo && showEmail) ? 'visible' : 'hidden'),
+        }"
+    >
+    khaled.gassara&#64;ensi-uma.tn
+    </div>
+
+    <p id="InfoMessage"
+        [ngStyle]="{ 
+            'visibility': (seeinfo ? 'visible' : 'hidden'),
+        }"
+        >
+        Use&nbsp;↑&nbsp;and&nbsp;↓<br>
+        to&nbsp;navigate&nbsp;between<br>
+        options&nbsp;and&nbsp;then<br>
+        press&nbsp;enter.
+    </p>
+</div>
+
+<div class="Planet" id="Skills"
+    style="background-image: url(../../assets/Skills.png);
+       font-size: 50px;
+       font-weight: bold;
+       color: aliceblue;
+       font-family: Arial, Helvetica, sans-serif;
+       top: 800px;
+       left: 500px;
+    "
+    [ngStyle]="{
+        'width': (inPlanet ? '430px' : '400px'),
+        'height': (inPlanet ? '430px' : '400px'),
+        'opacity': (inPlanet ? '1' : '0.5'),
+    }"
+>
+Skills
+<p id="planetMessage"></p>
+</div>
+
+<div class="Ground">
+</div>
+<div class="Ground" id="Grd1">
+</div>
+<div class="Ground" id="Grd2">
+</div>
+
+
+

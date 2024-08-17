@@ -1,7 +1,9 @@
-body{
-    background-color: rgb(253, 238, 221);
-    margin: 0px;
-    padding: 0px;
-    width : 100vw;
-    height: 100vh;
+body {
+    height: 2084px; 
+    width: 3126px; 
+    position: relative;
+    margin: 0;
+    background: url('assets/Background.png') no-repeat;
+    background-size: cover;
+    overflow: hidden;
 }
