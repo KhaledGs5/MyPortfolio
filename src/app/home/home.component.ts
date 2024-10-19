@@ -18,8 +18,14 @@ export class HomeComponent implements OnInit {
   seeInfoMessage: boolean = false;
   showEmail: boolean = false;
   isGrounded: boolean = true;
+  inSkillsPlanet: boolean = false;
+  inEductPlanet: boolean = false;
+  inExpPlanet : boolean = false;
   inPlanet: boolean = false;
   isFloating: boolean = false;
+  discoverSkillsPlanet: boolean = false;
+  discoverEductPlanet: boolean = false;
+  discoverExpPlanet: boolean = false;
 
   xpos: number = 45;
   ypos: number = 1760;
@@ -42,6 +48,7 @@ export class HomeComponent implements OnInit {
   sprite: string = 'Idle.png';
   messageimg: string = 'WelcomingMessage.png';
   infoselected: string = 'Linkedin';
+  planetname: string = 'Skills';
 
   infolist: string[] = ['Linkedin', 'Facebook', 'CodeForces', 'Github', 'Gmail'];
 
@@ -49,11 +56,37 @@ export class HomeComponent implements OnInit {
 
   flyTimeout: any; 
 
+  MySkills = [
+    { name: 'React', image: '../../assets/React.png' },
+    { name: 'Django', image: '../../assets/Django.png' },
+    { name: 'Angular', image: '../../assets/Angular.png' },
+    { name: 'Python', image: '../../assets/Python.png' },
+  ];
+
+  MyEducation = [
+    { name: 'ENSI', image: '../../assets/ENSI.png'},
+    { name: 'IPEIS', image: '../../assets/IPEIS.png'},
+  ];
+
+  MyExperience = [
+    { name: 'TELNET', image: '../../assets/TELNET.png', desc: 'Summer Internship June-July 2024'},
+    { name: 'Primatec', image: '../../assets/Primatec.png', desc: 'Summer Internship July-August 2024'},
+    { name: 'ENSI', image: '../../assets/ENSICristal.png', desc: 'Summer Internship At Cristal Laboratory July-August 2023'},
+  ];
+  calculatePosition(angle: number, radius: number, centerX: number, centerY: number, index: number) {
+    const angleInRadians = (index*angle * Math.PI) / 180; 
+    const x = centerX + radius * Math.cos(angleInRadians);
+    const y = centerY + radius * Math.sin(angleInRadians);
+    return { x, y };
+  }
+
   character!: HTMLElement;
-  planet!: HTMLElement;
   ground!: HTMLElement;
   ground1!: HTMLElement;
   ground2!: HTMLElement;
+  skills!: HTMLElement;
+  education!: HTMLElement;
+  experience!: HTMLElement;
 
   ngOnInit(): void {
     this.greet = true; 
@@ -62,10 +95,12 @@ export class HomeComponent implements OnInit {
     this.getAnimationClass();
 
     this.character = document.querySelector('#Character') as HTMLElement;
-    this.planet = document.querySelector('.Planet') as HTMLElement;
     this.ground = document.querySelector('.Ground') as HTMLElement;
     this.ground1 = document.querySelector('#Grd1') as HTMLElement;
     this.ground2 = document.querySelector('#Grd2') as HTMLElement;
+    this.skills = document.querySelector('#Skills') as HTMLElement;
+    this.education = document.querySelector('#Education') as HTMLElement;
+    this.experience = document.querySelector('#Experience') as HTMLElement;
 
     setInterval(() => this.checkCollision(), 50);
   }
@@ -81,20 +116,45 @@ export class HomeComponent implements OnInit {
   }
 
   checkCollision() {
-    if (this.isColliding(this.character, this.planet)) {
+    if (this.isColliding(this.character, this.skills) || this.isColliding(this.character, this.education) || this.isColliding(this.character, this.experience)) {
       this.Gravity = 0;
       this.isGrounded = true;
-      this.inPlanet = true;
       this.isFloating = true;
+      if(this.isColliding(this.character, this.skills)){
+        this.skills.innerHTML = 'Click Enter <br>To See My Skills';
+        this.planetname = 'Skills';
+        this.inSkillsPlanet = true;
+        if(this.discoverSkillsPlanet){
+            this.skills.innerHTML = 'Click Enter To<br> Hide';
+        }
+      }else if(this.isColliding(this.character, this.education)){
+        this.education.innerHTML = 'Click Enter <br> to see the <br>universities <br>attended';
+        this.planetname = 'Education';
+        this.inEductPlanet = true;
+        if(this.discoverEductPlanet){
+            this.education.innerHTML = 'Click Enter <br>To Hide';
+        }
+      }else if(this.isColliding(this.character, this.experience)){
+        this.experience.innerHTML = 'Click Enter <br> to see <br>My Experience ';
+        this.planetname = 'Experience';
+        this.inExpPlanet = true;
+        if(this.discoverExpPlanet){
+            this.experience.innerHTML = 'Click Enter <br>To Hide';
+        }
+      }
     }else if ((this.isColliding(this.character, this.ground)) || (this.isColliding(this.character, this.ground1)) || (this.isColliding(this.character, this.ground2))) {
         this.isGrounded = true;
         this.Xoffset = 0;
     }else{
         this.isGrounded = false;
-        this.inPlanet = false;
+        this.inEductPlanet = false;
+        this.inExpPlanet = false;
+        this.inSkillsPlanet = false;
         this.isFloating = false;
         this.Gravity = 6;
         this.Xoffset = 3;
+        this.skills.textContent = 'Skills';
+        this.education.textContent = 'Education';
     }
   }
 
@@ -137,6 +197,20 @@ export class HomeComponent implements OnInit {
             }
         }
     }
+    this.inPlanet = this.inSkillsPlanet || this.inEductPlanet || this.inExpPlanet;
+    if (this.keyState['Enter']){
+        if(this.inSkillsPlanet){
+            this.discoverSkillsPlanet =!this.discoverSkillsPlanet;
+        }else if (this.inEductPlanet){
+            this.discoverEductPlanet =!this.discoverEductPlanet;
+        }else if (this.inExpPlanet){
+            this.discoverExpPlanet =!this.discoverExpPlanet;
+        }
+    }else if(!this.inPlanet){
+        this.discoverSkillsPlanet = false;
+        this.discoverEductPlanet = false;
+        this.discoverExpPlanet = false;
+    }
   }
 
   @HostListener('window:keyup', ['$event'])
@@ -164,7 +238,7 @@ export class HomeComponent implements OnInit {
 
   updatePosition() {
     const now = performance.now();
-
+    
     if (this.greet && now >= this.MissionEndTime) {
         this.greet = false;
         this.welcMessage = true;

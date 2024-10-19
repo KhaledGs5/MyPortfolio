@@ -1,6 +1,6 @@
 
 <p id="Guide"
-    style="left: 100px; top: 1600px;" 
+    style="left: 100px; top: 1600px; font-family: MyFont;" 
     >Go Up To Discover The Portfolio</p>
 
 <div id="Character" 
@@ -158,22 +158,159 @@
 
 <div class="Planet" id="Skills"
     style="background-image: url(../../assets/Skills.png);
-       font-size: 50px;
+       font-size: 35px;
        font-weight: bold;
-       color: aliceblue;
-       font-family: Arial, Helvetica, sans-serif;
-       top: 800px;
+       color: rgb(172, 205, 209);
+       font-family: MyFont;
+       top: 1000px;
        left: 500px;
+       text-shadow:
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        2px 2px 0 #000;
     "
     [ngStyle]="{
-        'width': (inPlanet ? '430px' : '400px'),
-        'height': (inPlanet ? '430px' : '400px'),
-        'opacity': (inPlanet ? '1' : '0.5'),
+        'width': (inSkillsPlanet ? '430px' : '400px'),
+        'height': (inSkillsPlanet ? '430px' : '400px'),
+        'opacity': (inSkillsPlanet ? '1' : '0.5'),
     }"
 >
 Skills
-<p id="planetMessage"></p>
+<p id="planetMessage" ></p>
 </div>
+
+
+<div class="Planet" id="Education"
+    style="background-image: url(../../assets/Education.png);
+       font-size: 35px;
+       font-weight: bold;
+       color: rgb(172, 205, 209);
+       font-family: MyFont;
+       top: 200px;
+       left: 1800px;
+       text-shadow:
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        2px 2px 0 #000;
+       z-index: -1;
+    "
+    [ngStyle]="{
+        'width': (inEductPlanet ? '430px' : '400px'),
+        'height': (inEductPlanet ? '430px' : '400px'),
+        'opacity': (inEductPlanet ? '1' : '0.5'),
+    }"
+>
+Education
+<p id="planetMessage" ></p>
+</div>
+
+<div class="Planet" id="Experience"
+    style="background-image: url(../../assets/Experience.png);
+       font-size: 35px;
+       font-weight: bold;
+       color: rgb(172, 205, 209);
+       font-family: MyFont;
+       top: 200px;
+       left: 500px;
+       text-shadow:
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        2px 2px 0 #000;
+       z-index: -1;
+    "
+    [ngStyle]="{
+        'width': (inExpPlanet ? '430px' : '400px'),
+        'height': (inExpPlanet ? '430px' : '400px'),
+        'opacity': (inExpPlanet ? '1' : '0.5'),
+    }"
+>
+Experience
+<p id="planetMessage" ></p>
+</div>
+
+
+<div *ngFor="let exp of MyExperience; let i = index" 
+    id="EductKid"
+    [ngStyle]="{
+        'width': '150px',
+        'height': '150px',
+        'top' : (discoverExpPlanet ? (calculatePosition(60, 350, 650,350,i).y) + 'px' : '350px'),
+        'left' : (discoverExpPlanet ? (calculatePosition(60, 350, 650,350,i).x) + 'px' : '650px'),
+        'opacity': (discoverExpPlanet ? '1' : '0.1'),
+    }"
+    style="
+        background-image: url(../../assets/ExperienceKid.png);
+        background-size: cover;
+        position: absolute;
+        text-align: center;
+        font-size: 10px;
+        transition: all 0.8s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    ">
+    <img [src]="exp.image" [alt]="exp.name" style="width: 80%; height: 50%; object-fit: contain; z-index: 1;">
+    <p style="font-size: 12px; font-weight: bold; font-family: MyFont; color: aliceblue; margin-top: -5px; width: 80%; height: 50%;">{{ exp.desc }}</p>
+</div>
+
+
+
+
+
+<div *ngFor="let educt of MyEducation; let i = index" 
+    id="EductKid"
+    [ngStyle]="{
+        'width': '100px',
+        'height': '100px',
+        'top' : (discoverEductPlanet ? (calculatePosition(-40 + i*170, 280, 1950,350,1).y) + 'px' : '350px'),
+        'left' : (discoverEductPlanet ? (calculatePosition(-40 + i*170, 280, 1950,350,1).x) + 'px' : '1950px'),
+        'opacity': (discoverEductPlanet ? '1' : '0.1'),
+    }"
+    style="
+        background-image: url(../../assets/EducationKid.png);
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        text-align: center;
+        font-size: 10px;
+        transition: all 0.8s;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    ">
+    <img [src]="educt.image" [alt]="educt.name" style="width: 100%; height: 100%; object-fit: contain; z-index: 1;">
+</div>
+
+
+
+<div *ngFor="let skill of MySkills; let i = index" 
+    [ngStyle]="{
+        'width': '100px',
+        'height': '100px',
+        'top' : (discoverSkillsPlanet ? (calculatePosition(25, 300, 650,1150,i).y) + 'px' : '1150px'),
+        'left' : (discoverSkillsPlanet ? (calculatePosition(25, 300, 650,1150,i).x) + 'px' : '650px'),
+        'opacity': (discoverSkillsPlanet ? '1' : '0.1'),
+    }"
+    style="
+        background-image: url(../../assets/SkillsKid.png);
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        text-align: center;
+        font-size: 10px;
+        transition: all 0.8s;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    ">
+    <img [src]="skill.image" [alt]="skill.name" style="width: 100%; height: 100%; object-fit: contain;">
+</div>
+
+
 
 <div class="Ground">
 </div>
