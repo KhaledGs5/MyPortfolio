@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   seeinfo: boolean = false;
   afterseeinfo: boolean = false;
   walk: boolean = false;
+  land: boolean = false;
   greet: boolean = true;
   welcMessage: boolean = false;
   controlMessage: boolean = false;
@@ -21,11 +22,13 @@ export class HomeComponent implements OnInit {
   inSkillsPlanet: boolean = false;
   inEductPlanet: boolean = false;
   inExpPlanet : boolean = false;
+  inProjectPlanet : boolean = false;
   inPlanet: boolean = false;
   isFloating: boolean = false;
   discoverSkillsPlanet: boolean = false;
   discoverEductPlanet: boolean = false;
   discoverExpPlanet: boolean = false;
+  discoverProjectPlanet: boolean = false;
 
   xpos: number = 45;
   ypos: number = 1760;
@@ -56,6 +59,9 @@ export class HomeComponent implements OnInit {
 
   flyTimeout: any; 
 
+
+  // Planets Content --------------------------------
+
   MySkills = [
     { name: 'React', image: '../../assets/React.png' },
     { name: 'Django', image: '../../assets/Django.png' },
@@ -73,12 +79,21 @@ export class HomeComponent implements OnInit {
     { name: 'Primatec', image: '../../assets/Primatec.png', desc: 'Summer Internship July-August 2024'},
     { name: 'ENSI', image: '../../assets/ENSICristal.png', desc: 'Summer Internship At Cristal Laboratory July-August 2023'},
   ];
+
+  MyProjects = [
+    { name: 'Fixprostho', image: '../../assets/FixProstho.png', angle: 262, index: 1},
+  ]
+
+  // Planet Kids --------------------------------
   calculatePosition(angle: number, radius: number, centerX: number, centerY: number, index: number) {
     const angleInRadians = (index*angle * Math.PI) / 180; 
     const x = centerX + radius * Math.cos(angleInRadians);
     const y = centerY + radius * Math.sin(angleInRadians);
     return { x, y };
   }
+
+
+  // HTML Varibales ----------------------------
 
   character!: HTMLElement;
   ground!: HTMLElement;
@@ -87,6 +102,7 @@ export class HomeComponent implements OnInit {
   skills!: HTMLElement;
   education!: HTMLElement;
   experience!: HTMLElement;
+  project!: HTMLElement;
 
   ngOnInit(): void {
     this.greet = true; 
@@ -101,9 +117,12 @@ export class HomeComponent implements OnInit {
     this.skills = document.querySelector('#Skills') as HTMLElement;
     this.education = document.querySelector('#Education') as HTMLElement;
     this.experience = document.querySelector('#Experience') as HTMLElement;
+    this.project = document.querySelector('#ProjectAnimation') as HTMLElement;
 
     setInterval(() => this.checkCollision(), 50);
   }
+
+  // isColliding --------------------------------
 
   isColliding(elem1: HTMLElement, elem2: HTMLElement): boolean {
     const rect1 = elem1.getBoundingClientRect();
@@ -115,8 +134,10 @@ export class HomeComponent implements OnInit {
              rect1.top+50 > rect2.bottom-50);
   }
 
+  // Collisionsss --------------------------------
+
   checkCollision() {
-    if (this.isColliding(this.character, this.skills) || this.isColliding(this.character, this.education) || this.isColliding(this.character, this.experience)) {
+    if (this.isColliding(this.character, this.skills) || this.isColliding(this.character, this.education) || this.isColliding(this.character, this.experience) || this.isColliding(this.character, this.project)) {
       this.Gravity = 0;
       this.isGrounded = true;
       this.isFloating = true;
@@ -141,6 +162,13 @@ export class HomeComponent implements OnInit {
         if(this.discoverExpPlanet){
             this.experience.innerHTML = 'Click Enter <br>To Hide';
         }
+      }else if(this.isColliding(this.character, this.project)){
+        this.project.innerHTML = 'Click Enter <br> to see <br>My Projects';
+        this.planetname = 'Projects';
+        this.inProjectPlanet = true;
+        if(this.discoverProjectPlanet){
+            this.project.innerHTML = 'Click Enter <br>To Hide';
+        }
       }
     }else if ((this.isColliding(this.character, this.ground)) || (this.isColliding(this.character, this.ground1)) || (this.isColliding(this.character, this.ground2))) {
         this.isGrounded = true;
@@ -150,13 +178,18 @@ export class HomeComponent implements OnInit {
         this.inEductPlanet = false;
         this.inExpPlanet = false;
         this.inSkillsPlanet = false;
+        this.inProjectPlanet = false;
         this.isFloating = false;
         this.Gravity = 6;
         this.Xoffset = 3;
         this.skills.textContent = 'Skills';
         this.education.textContent = 'Education';
+        this.experience.textContent = 'Experience';
+        this.project.textContent = 'Projects';
     }
   }
+
+  // Inputss --------------------------------
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -197,7 +230,7 @@ export class HomeComponent implements OnInit {
             }
         }
     }
-    this.inPlanet = this.inSkillsPlanet || this.inEductPlanet || this.inExpPlanet;
+    this.inPlanet = this.inSkillsPlanet || this.inEductPlanet || this.inExpPlanet || this.inProjectPlanet;
     if (this.keyState['Enter']){
         if(this.inSkillsPlanet){
             this.discoverSkillsPlanet =!this.discoverSkillsPlanet;
@@ -205,11 +238,14 @@ export class HomeComponent implements OnInit {
             this.discoverEductPlanet =!this.discoverEductPlanet;
         }else if (this.inExpPlanet){
             this.discoverExpPlanet =!this.discoverExpPlanet;
+        }else if (this.inProjectPlanet) {
+            this.discoverProjectPlanet =!this.discoverProjectPlanet;
         }
     }else if(!this.inPlanet){
         this.discoverSkillsPlanet = false;
         this.discoverEductPlanet = false;
         this.discoverExpPlanet = false;
+        this.discoverProjectPlanet = false;
     }
   }
 
@@ -335,6 +371,7 @@ export class HomeComponent implements OnInit {
 
 
     this.walk = !this.fly && (this.keyState['q'] || this.keyState['d']) && this.isGrounded;
+    this.land = !this.fly && !this.isGrounded && !this.keyState['s'];
     
     window.requestAnimationFrame(() => {
         this.updatePosition();
@@ -386,6 +423,9 @@ export class HomeComponent implements OnInit {
     } else if (this.fly) {
         this.sprite = 'FlySeq.png';
         return 'FlyAnimation';
+    } else if (this.land) {
+        this.sprite = 'Fly&LandSeq.png';
+        return 'LandAnimation';
     } else if (this.walk) {
         this.sprite = 'WalkSeq.png';
         return 'WalkAnimation';

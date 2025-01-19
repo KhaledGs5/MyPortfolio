@@ -40,7 +40,7 @@
     >
         &nbsp;<span style="color: lightblue;">Khaled&nbsp;Gassara</span> <br>
         <span>Computer&nbsp;Science&nbsp;Student</span>
-        <p style="color: azure; font-size: medium;">
+        <p style="color: azure; font-size: 13px;">
             Hello&nbsp;I'm&nbsp;Khaled&nbsp;Gassara,&nbsp;a <br>
             third-year&nbsp;student&nbsp;at&nbsp;the&nbsp;National <br>
             School&nbsp;of&nbsp;Computer&nbsp;Science&nbsp;(ENSI),<br>Tunisia.<br><br>
@@ -156,6 +156,11 @@
     </p>
 </div>
 
+
+<!-- Palnetss -->
+
+
+
 <div class="Planet" id="Skills"
     style="background-image: url(../../assets/Skills.png);
        font-size: 35px;
@@ -231,9 +236,38 @@ Experience
 <p id="planetMessage" ></p>
 </div>
 
+<div class="Planet" id="ProjectAnimation"
+    style="background-image: url(../../assets/ProjectPlanetSeq.png);
+       font-size: 35px;
+       font-weight: bold;
+       color: rgb(172, 205, 209);
+       font-family: MyFont;
+       top: 1000px;
+       left: 1800px;
+       text-shadow:
+        -2px -2px 0 #000, 
+        2px -2px 0 #000,  
+        -2px 2px 0 #000,  
+        2px 2px 0 #000;
+        z-index: -1;
+        background-size: cover;
+    "
+    [ngStyle]="{
+        'width': '480px',
+        'height': '480px',
+        'opacity': (inProjectPlanet ? '1' : '0.5'),
+    }"
+>
+Projects
+<p id="planetMessage" ></p>
+</div>
+
+
+<!-- Palnets Kidss -->
+
 
 <div *ngFor="let exp of MyExperience; let i = index" 
-    id="EductKid"
+    id="ExpKid"
     [ngStyle]="{
         'width': '150px',
         'height': '150px',
@@ -310,6 +344,34 @@ Experience
     <img [src]="skill.image" [alt]="skill.name" style="width: 100%; height: 100%; object-fit: contain;">
 </div>
 
+
+
+<div *ngFor="let project of MyProjects;" 
+    [ngStyle]="{
+        'width': (discoverProjectPlanet ? '100px' : '35px'),
+        'height': (discoverProjectPlanet ? '100px' : '35px'),
+        'top' : (discoverProjectPlanet ? (calculatePosition(project.angle, 300, 2015,1215,project.index).y) + 'px' : '1215px'),
+        'left' : (discoverProjectPlanet ? (calculatePosition(project.angle, 300, 2015,1215,project.index).x) + 'px' : '2015px'),
+        'opacity': (discoverProjectPlanet ? '1' : '0'),
+        'transition': discoverProjectPlanet ? 'opacity 1.5s ease-in, left 0.8s, top 0.8s, width 1s ease-in, height 1s ease-in' : 'opacity 0.8s ease-out,left 0.8s, top 0.8s, width 1s ease-out, height 1s ease-out',
+    }"
+    style="
+        background-image: url(../../assets/ProjectKid.png);
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        text-align: center;
+        font-size: 10px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    ">
+    <img [src]="project.image" [alt]="project.name" style="width: 100%; height: 100%; object-fit: contain;">
+</div>
+
+
+
+<!-- Ground -->
 
 
 <div class="Ground">

@@ -93,9 +93,9 @@
     position: absolute;
     z-index: 10;
     transition: all 0.2s;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
-    font-family: sans-serif;
+    font-family: MyFont;
     color: lightgray;
     overflow: hidden;
     background-color: rgb(34, 34, 60);
@@ -109,9 +109,9 @@
     position: absolute;
     z-index: 10;
     transition: width 0.2s;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
-    font-family: sans-serif;
+    font-family: MyFont;
     color: lightgray;
     overflow: hidden;
     background-color: rgb(34, 34, 60);
@@ -131,15 +131,17 @@
     border: 3px solid white;
     background: url('../../assets/Myimage.png');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 130%;
+    background-position: center center;
     animation: float 3s ease-in-out infinite;
 }
 
 #InfoMessage {
     position: absolute; 
     top: 0px; 
-    left: 150px; 
-    font-size: 20px; 
+    left: 150px;
+    font-family: MyFont;
+    font-size: 15px; 
     font-weight: bold; 
     color: aliceblue;
     animation: float 3s ease-in-out infinite;
@@ -250,6 +252,33 @@
         transform: translateY(0px);
     }
 }
+
+.LandAnimation {
+    animation: FlyandFlame 0.2s steps(16) infinite; 
+}
+
+@keyframes FlyandFlame {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: -4800px 0px;
+    }
+}
+
+#ProjectAnimation {
+    animation: ProjectPlanet 2s steps(65) infinite; 
+}
+
+@keyframes ProjectPlanet {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: -31200px 0px;
+    }
+}
+
 
 
 
