@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   discoverEductPlanet: boolean = false;
   discoverExpPlanet: boolean = false;
   discoverProjectPlanet: boolean = false;
+  showDesc: boolean = false;
 
   xpos: number = 45;
   ypos: number = 1760;
@@ -44,7 +45,10 @@ export class HomeComponent implements OnInit {
   InfoIndex: number = 0;
   Xoffset: number = 0;
   Gravity: number = 6;
-
+  ExpPlanetIndex: number = 1;
+  PrjPlanetIndex: number = 1;
+  XDescPos: number = 200;
+  YDescPos: number = 200;
 
   keyState: { [key: string]: boolean } = {}; 
 
@@ -52,6 +56,8 @@ export class HomeComponent implements OnInit {
   messageimg: string = 'WelcomingMessage.png';
   infoselected: string = 'Linkedin';
   planetname: string = 'Skills';
+  desc: string = 'Developed automated test cases for Ingenico terminals using Robot Framework, Python, and multithreading for seamless communication.';
+  prjgit: string = 'Unavailable';
 
   infolist: string[] = ['Linkedin', 'Facebook', 'CodeForces', 'Github', 'Gmail'];
 
@@ -75,13 +81,15 @@ export class HomeComponent implements OnInit {
   ];
 
   MyExperience = [
-    { name: 'TELNET', image: '../../assets/TELNET.png', desc: 'Summer Internship June-July 2024'},
-    { name: 'Primatec', image: '../../assets/Primatec.png', desc: 'Summer Internship July-August 2024'},
-    { name: 'ENSI', image: '../../assets/ENSICristal.png', desc: 'Summer Internship At Cristal Laboratory July-August 2023'},
+    { name: 'TELNET', image: '../../assets/TELNET.png', desc: 'Summer Internship June-July 2024', sel:1},
+    { name: 'Primatec', image: '../../assets/Primatec.png', desc: 'Summer Internship July-August 2024', sel:2},
+    { name: 'ENSI', image: '../../assets/ENSICristal.png', desc: 'Summer Internship At Cristal Laboratory July-August 2023', sel:3},
   ];
 
   MyProjects = [
-    { name: 'Fixprostho', image: '../../assets/FixProstho.png', angle: 262, index: 1},
+    { name: 'Fixprostho', image: '../../assets/FixProstho.png', radius : 340, angle: 258, index: 1, sel:1},
+    { name: 'Secure CI/CD Pipeline', image: '../../assets/Jenkins.png', radius : 280, angle: 316, index: 1, sel:2},
+    { name: 'Ninga', image: '../../assets/Ninga.png', radius : 300, angle: 172, index: 1, sel:3},
   ]
 
   // Planet Kids --------------------------------
@@ -160,7 +168,7 @@ export class HomeComponent implements OnInit {
         this.planetname = 'Experience';
         this.inExpPlanet = true;
         if(this.discoverExpPlanet){
-            this.experience.innerHTML = 'Click Enter <br>To Hide';
+            this.experience.innerHTML = 'Use Arrows To Navigate Between Planets<br><br>Click Enter <br>To Hide';
         }
       }else if(this.isColliding(this.character, this.project)){
         this.project.innerHTML = 'Click Enter <br> to see <br>My Projects';
@@ -186,6 +194,7 @@ export class HomeComponent implements OnInit {
         this.education.textContent = 'Education';
         this.experience.textContent = 'Experience';
         this.project.textContent = 'Projects';
+        this.showDesc = false;
     }
   }
 
@@ -195,19 +204,45 @@ export class HomeComponent implements OnInit {
   handleKeyDown(event: KeyboardEvent) {
     this.keyState[event.key] = true;
     if (event.key === 'ArrowDown') {
-        this.InfoIndex++;
-        if (this.InfoIndex > 4){
-            this.InfoIndex = 0;
+        this.showDesc = false;
+        if(this.isColliding(this.character, this.experience)){
+            this.ExpPlanetIndex++;
+            if (this.ExpPlanetIndex > 3){
+                this.ExpPlanetIndex = 1;
+            }
+        }else if(this.isColliding(this.character, this.project)){
+            this.PrjPlanetIndex++;
+            if (this.PrjPlanetIndex > 3){
+                this.PrjPlanetIndex = 1;
+            }
+        }else{
+            this.InfoIndex++;
+            if (this.InfoIndex > 4){
+                this.InfoIndex = 0;
+            }
+            this.infoselected = this.infolist[this.InfoIndex];
         }
-        this.infoselected = this.infolist[this.InfoIndex];
     }
 
     if (event.key === 'ArrowUp') {
-        this.InfoIndex--;
-        if (this.InfoIndex < 0){
-            this.InfoIndex = 4
+        this.showDesc = false;
+        if(this.isColliding(this.character, this.experience)){
+            this.ExpPlanetIndex--;
+            if (this.ExpPlanetIndex < 1){
+                this.ExpPlanetIndex = 3;
+            }
+        }else if(this.isColliding(this.character, this.project)){
+            this.PrjPlanetIndex--;
+            if (this.PrjPlanetIndex < 1){
+                this.PrjPlanetIndex = 3;
+            }
+        }else{
+            this.InfoIndex--;
+            if (this.InfoIndex < 0){
+                this.InfoIndex = 4
+            }
+            this.infoselected = this.infolist[this.InfoIndex];
         }
-        this.infoselected = this.infolist[this.InfoIndex];
     }
     let GmailElement: HTMLElement | null = null;
     this.showEmail = false;
@@ -232,6 +267,7 @@ export class HomeComponent implements OnInit {
     }
     this.inPlanet = this.inSkillsPlanet || this.inEductPlanet || this.inExpPlanet || this.inProjectPlanet;
     if (this.keyState['Enter']){
+        this.showDesc = false;
         if(this.inSkillsPlanet){
             this.discoverSkillsPlanet =!this.discoverSkillsPlanet;
         }else if (this.inEductPlanet){
@@ -246,6 +282,66 @@ export class HomeComponent implements OnInit {
         this.discoverEductPlanet = false;
         this.discoverExpPlanet = false;
         this.discoverProjectPlanet = false;
+    }
+
+    if (this.keyState['e']){
+        if(this.isColliding(this.character, this.experience) && this.discoverExpPlanet){
+            this.showDesc = !this.showDesc;
+            if(this.ExpPlanetIndex == 1){
+                this.XDescPos = 1200;
+                this.YDescPos = 200;
+                this.prjgit = 'Unavailble';
+                this.desc = 'Developed automated test cases for Ingenico terminals using Robot Framework, Python, and multithreading for seamless communication.';
+            }else if(this.ExpPlanetIndex == 2){
+                this.XDescPos = 1030;
+                this.YDescPos = 550;
+                this.prjgit = 'Click G'
+                this.desc = 'Developed a real-time car dashboard testing web application using React, Django, and WebSocket protocol.';
+            }else if(this.ExpPlanetIndex == 3){
+                this.XDescPos = 230;
+                this.YDescPos = 550;
+                this.prjgit = 'Click G'
+                this.desc = 'Developed CarMarket, an e-commerce web application for buying and selling cars using React, CSS, and PHP.';
+            }
+        }else if(this.isColliding(this.character, this.project)  && this.discoverProjectPlanet){
+            this.showDesc = !this.showDesc;
+            if(this.PrjPlanetIndex == 1){
+                this.XDescPos = 1750;
+                this.YDescPos = 750;
+                this.prjgit = 'Click G';
+                this.desc = 'Developed Fixprostho, a Windows and Android application for managing dental students tests using Flutter, with data stored locally in CSV files for each teacher.';
+            }else if(this.PrjPlanetIndex == 2){
+                this.XDescPos = 2400;
+                this.YDescPos = 850;
+                this.prjgit = 'Click G'
+                this.desc = 'Implemented a secure CI/CD pipeline for deploying containerized applications using Docker, Jenkins, SonarQube, Trivy, Kubernetes, and GitOps.';
+            }else if(this.PrjPlanetIndex == 3){
+                this.XDescPos = 1500;
+                this.YDescPos = 1050;
+                this.prjgit = 'Click G'
+                this.desc = 'Developed Ninga, a Unity-based video game using C# and Python (cv2) for camera-based finger tracking.';
+            }
+        }
+    }
+
+    if(event.key === 'g' && this.showDesc){
+        if(this.prjgit == 'Click G'){
+            if(this.isColliding(this.character, this.experience) && this.discoverExpPlanet){
+                if(this.ExpPlanetIndex == 2){
+                    window.open('https://github.com/KhaledGs5/Dashboard', '_blank');
+                }else if(this.ExpPlanetIndex == 3){
+                    window.open('https://github.com/KhaledGs5/CarMarket', '_blank');
+                }
+            }else if (this.isColliding(this.character, this.project) && this.discoverProjectPlanet){
+                if(this.PrjPlanetIndex == 1){
+                    window.open('https://github.com/KhaledGs5/Fixprostho', '_blank');
+                }else if(this.PrjPlanetIndex == 2){
+                    window.open('https://github.com/KhaledGs5/Secure-CI-CD-Pipeline', '_blank');
+                }else if(this.PrjPlanetIndex == 3){
+                    window.open('https://github.com/KhaledGs5/Ninga', '_blank');
+                }
+            }
+        }
     }
   }
 
@@ -270,7 +366,7 @@ export class HomeComponent implements OnInit {
     if (linkElement) {
         linkElement.click();
     }
-}
+ }
 
   updatePosition() {
     const now = performance.now();
@@ -379,6 +475,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // Update Screen Position --------------------------------
+
   updateScreenPosition() {
     this.smoothScrollTo(this.xpos - window.innerWidth / 2 + 150, 
                 this.ypos - window.innerHeight / 2 + 150);
@@ -414,6 +512,9 @@ export class HomeComponent implements OnInit {
     requestAnimationFrame(scrollStep);
 }
 
+
+
+// Animations  --------------------------------
   
 
   getAnimationClass() {

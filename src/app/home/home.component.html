@@ -274,6 +274,8 @@ Projects
         'top' : (discoverExpPlanet ? (calculatePosition(60, 350, 650,350,i).y) + 'px' : '350px'),
         'left' : (discoverExpPlanet ? (calculatePosition(60, 350, 650,350,i).x) + 'px' : '650px'),
         'opacity': (discoverExpPlanet ? '1' : '0.1'),
+        'border': ((exp.sel == ExpPlanetIndex) ? '2px solid white' : ''),
+        'border-radius': '50%',
     }"
     style="
         background-image: url(../../assets/ExperienceKid.png);
@@ -281,18 +283,18 @@ Projects
         position: absolute;
         text-align: center;
         font-size: 10px;
-        transition: all 0.8s;
+        transition: left 0.8s, top 0.8s, opacity 0.8s, border 0.2s;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     ">
+    <div *ngIf="exp.sel === ExpPlanetIndex" style="font-size: 12px; font-weight: bold; font-family: MyFont; color: aliceblue; position: absolute; top: -20px;">
+        {{ ! showDesc ? 'Click E' : 'Hide With E' }}
+    </div>
     <img [src]="exp.image" [alt]="exp.name" style="width: 80%; height: 50%; object-fit: contain; z-index: 1;">
     <p style="font-size: 12px; font-weight: bold; font-family: MyFont; color: aliceblue; margin-top: -5px; width: 80%; height: 50%;">{{ exp.desc }}</p>
 </div>
-
-
-
 
 
 <div *ngFor="let educt of MyEducation; let i = index" 
@@ -350,10 +352,12 @@ Projects
     [ngStyle]="{
         'width': (discoverProjectPlanet ? '100px' : '35px'),
         'height': (discoverProjectPlanet ? '100px' : '35px'),
-        'top' : (discoverProjectPlanet ? (calculatePosition(project.angle, 300, 2015,1215,project.index).y) + 'px' : '1215px'),
-        'left' : (discoverProjectPlanet ? (calculatePosition(project.angle, 300, 2015,1215,project.index).x) + 'px' : '2015px'),
+        'top' : (discoverProjectPlanet ? (calculatePosition(project.angle, project.radius, 2040,1240,project.index).y) + 'px' : '1215px'),
+        'left' : (discoverProjectPlanet ? (calculatePosition(project.angle, project.radius, 2040,1240,project.index).x) + 'px' : '2015px'),
         'opacity': (discoverProjectPlanet ? '1' : '0'),
         'transition': discoverProjectPlanet ? 'opacity 1.5s ease-in, left 0.8s, top 0.8s, width 1s ease-in, height 1s ease-in' : 'opacity 0.8s ease-out,left 0.8s, top 0.8s, width 1s ease-out, height 1s ease-out',
+        'border': ((project.sel == PrjPlanetIndex) ? '2px solid white' : ''),
+        'border-radius': '50%',
     }"
     style="
         background-image: url(../../assets/ProjectKid.png);
@@ -366,9 +370,69 @@ Projects
         display: flex;
         justify-content: center;
     ">
+    <div *ngIf="project.sel === PrjPlanetIndex" style="font-size: 12px; font-weight: bold; font-family: MyFont; color: aliceblue; position: absolute; top: -20px;">
+        {{ ! showDesc ? 'Click E' : 'Hide With E' }}
+    </div>
     <img [src]="project.image" [alt]="project.name" style="width: 100%; height: 100%; object-fit: contain;">
 </div>
 
+
+
+<div class="KidPlanetDesc"
+    [ngStyle]="{
+        'width': '200px',
+        'height': '300px',
+        'border-radius' : '5px',
+        'position': 'absolute',
+        'top' : YDescPos + 'px',
+        'left' : XDescPos + 'px',
+        'opacity': (showDesc ? '1' : '0'),
+        'background-image': 'url(../../assets/Desc.jpg)',
+        'background-size': 'cover',
+        'background-position': 'center',
+        'transition' : 'opacity 0.5s',
+        'display': 'flex',
+        'flex-direction': 'column',
+        'align-items': 'center',
+        'justify-content': 'start',
+        'padding': '45px',
+        'box-sizing': 'border-box',
+        'box-shadow': '0px 0px 5px rgba(0, 0, 0, 0.2)',
+        'font-size': '10px',
+        'font-weight': 'bold',
+        'font-family': 'MyFont',
+        'text-align': 'center',
+        'color': 'aliceblue',
+    }"
+>
+<div>
+    {{ desc }}
+</div>
+<div style="
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+">
+    <div style="
+            background-image: url(../../assets/GithubLogo.png); width: 30px; height: 30px;
+            border-radius: 10px;
+            background-size: 100%;
+            background-position: center;
+            margin-right: 5px;">
+        <a href="https://github.com/KhaledGassara"
+            style="
+                width: 100%;
+                height: 100%;
+                text-decoration: none;"
+            target="_blank"
+        >
+        </a>
+    </div>
+    <span>{{prjgit}} </span>
+</div>
+</div>
 
 
 <!-- Ground -->
