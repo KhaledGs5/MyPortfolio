@@ -123,6 +123,7 @@ export class HomeComponent implements OnInit {
   Flying = new Audio();
   Landing = new Audio();
   Discover = new Audio();
+  Change = new Audio();
 
   PlayWalkingSound(): void {
     if (this.Walking.paused) {
@@ -176,18 +177,19 @@ export class HomeComponent implements OnInit {
       this.Discover.volume = 0.5;
     }
   }
+
+  PlayChangeSound(): void {
+      this.Change.src = '../../assets/Change.mp3';
+      this.Change.load();
+      this.Change.play();
+      this.Change.volume = 0.2;
+  }
   
   ngOnInit(): void {
     this.greet = true; 
     this.MissionEndTime = performance.now() + 990; 
     this.updatePosition();
     this.getAnimationClass();
-    this.BackgroundAudio.src = '../../assets/Space.mp3';
-    this.BackgroundAudio.load();
-    this.BackgroundAudio.loop = true; 
-    this.BackgroundAudio
-      .play()
-      .catch((error) => console.error('Error playing sound:', error));
 
     this.character = document.querySelector('#Character') as HTMLElement;
     this.ground = document.querySelector('.Ground') as HTMLElement;
@@ -273,8 +275,12 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
+    if(event.key === 'f' && !this.keyState['f']){
+        this.PlayDiscoverSound();
+    }
     this.keyState[event.key] = true;
     if (event.key === 'ArrowDown') {
+        this.PlayChangeSound();
         this.showDesc = false;
         if(this.isColliding(this.character, this.experience)){
             this.ExpPlanetIndex++;
@@ -301,6 +307,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (event.key === 'ArrowUp') {
+        this.PlayChangeSound();
         this.showDesc = false;
         if(this.isColliding(this.character, this.experience)){
             this.ExpPlanetIndex--;
@@ -370,6 +377,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.keyState['e']){
+        this.PlayDiscoverSound();
         if(this.isColliding(this.character, this.experience) && this.discoverExpPlanet){
             this.showDesc = !this.showDesc;
             this.DescFontSize = 12;
