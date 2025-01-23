@@ -47,8 +47,10 @@ export class HomeComponent implements OnInit {
   Gravity: number = 6;
   ExpPlanetIndex: number = 1;
   PrjPlanetIndex: number = 1;
+  SkillsPlanetIndex: number = 1;
   XDescPos: number = 200;
   YDescPos: number = 200;
+  DescFontSize: number = 10;
 
   keyState: { [key: string]: boolean } = {}; 
 
@@ -69,10 +71,12 @@ export class HomeComponent implements OnInit {
   // Planets Content --------------------------------
 
   MySkills = [
-    { name: 'React', image: '../../assets/React.png' },
-    { name: 'Django', image: '../../assets/Django.png' },
-    { name: 'Angular', image: '../../assets/Angular.png' },
-    { name: 'Python', image: '../../assets/Python.png' },
+    { name: 'Programming Languages', image: '../../assets/PrgLang.png', sel:1},
+    { name: 'WebDev', image: '../../assets/WebDev.png', sel:2},
+    { name: 'Dev', image: '../../assets/Dev.png', sel:3},
+    { name: 'DB', image: '../../assets/DB.png', sel:4},
+    { name: 'DevOps', image: '../../assets/DevOps.png', sel:5},
+    { name: 'Design', image: '../../assets/Design.png', sel:6},
   ];
 
   MyEducation = [
@@ -112,6 +116,23 @@ export class HomeComponent implements OnInit {
   experience!: HTMLElement;
   project!: HTMLElement;
 
+  // Sounds
+
+  audio = new Audio();
+  showPlayButton = true;
+
+//   startAudio(): void {
+//     this.audio.src = '../../assets/SpaceSound.mp3'; // Path to your sound file
+//     this.audio.load();
+//     this.audio.loop = true; // Enable looping
+//     this.audio
+//       .play()
+//       .then(() => {
+//         this.showPlayButton = false; // Hide the play button after starting audio
+//       })
+//       .catch((error) => console.error('Error playing sound:', error));
+//   }
+  
   ngOnInit(): void {
     this.greet = true; 
     this.MissionEndTime = performance.now() + 990; 
@@ -154,7 +175,7 @@ export class HomeComponent implements OnInit {
         this.planetname = 'Skills';
         this.inSkillsPlanet = true;
         if(this.discoverSkillsPlanet){
-            this.skills.innerHTML = 'Click Enter To<br> Hide';
+            this.skills.innerHTML = 'Use Arrows To Navigate Between Planets<br><br>Click Enter To<br> Hide';
         }
       }else if(this.isColliding(this.character, this.education)){
         this.education.innerHTML = 'Click Enter <br> to see the <br>universities <br>attended';
@@ -215,6 +236,11 @@ export class HomeComponent implements OnInit {
             if (this.PrjPlanetIndex > 3){
                 this.PrjPlanetIndex = 1;
             }
+        }else if(this.isColliding(this.character, this.skills)){
+            this.SkillsPlanetIndex++;
+            if (this.SkillsPlanetIndex > 6){
+                this.SkillsPlanetIndex = 1;
+            }
         }else{
             this.InfoIndex++;
             if (this.InfoIndex > 4){
@@ -235,6 +261,11 @@ export class HomeComponent implements OnInit {
             this.PrjPlanetIndex--;
             if (this.PrjPlanetIndex < 1){
                 this.PrjPlanetIndex = 3;
+            }
+        }else if(this.isColliding(this.character, this.skills)){
+            this.SkillsPlanetIndex--;
+            if (this.SkillsPlanetIndex < 1){
+                this.SkillsPlanetIndex = 6;
             }
         }else{
             this.InfoIndex--;
@@ -287,41 +318,73 @@ export class HomeComponent implements OnInit {
     if (this.keyState['e']){
         if(this.isColliding(this.character, this.experience) && this.discoverExpPlanet){
             this.showDesc = !this.showDesc;
+            this.DescFontSize = 12;
             if(this.ExpPlanetIndex == 1){
-                this.XDescPos = 1200;
-                this.YDescPos = 200;
-                this.prjgit = 'Unavailble';
+                this.XDescPos = 1180;
+                this.YDescPos = 250;
+                this.prjgit = 'Unavailable';
                 this.desc = 'Developed automated test cases for Ingenico terminals using Robot Framework, Python, and multithreading for seamless communication.';
             }else if(this.ExpPlanetIndex == 2){
-                this.XDescPos = 1030;
-                this.YDescPos = 550;
+                this.XDescPos = 1005;
+                this.YDescPos = 553;
                 this.prjgit = 'Click G'
                 this.desc = 'Developed a real-time car dashboard testing web application using React, Django, and WebSocket protocol.';
             }else if(this.ExpPlanetIndex == 3){
-                this.XDescPos = 230;
-                this.YDescPos = 550;
+                this.XDescPos = 245;
+                this.YDescPos = 553;
                 this.prjgit = 'Click G'
                 this.desc = 'Developed CarMarket, an e-commerce web application for buying and selling cars using React, CSS, and PHP.';
             }
         }else if(this.isColliding(this.character, this.project)  && this.discoverProjectPlanet){
             this.showDesc = !this.showDesc;
+            this.DescFontSize = 10;
             if(this.PrjPlanetIndex == 1){
-                this.XDescPos = 1750;
-                this.YDescPos = 750;
+                this.XDescPos = 1740;
+                this.YDescPos = 807;
                 this.prjgit = 'Click G';
                 this.desc = 'Developed Fixprostho, a Windows and Android application for managing dental students tests using Flutter, with data stored locally in CSV files for each teacher.';
             }else if(this.PrjPlanetIndex == 2){
-                this.XDescPos = 2400;
-                this.YDescPos = 850;
+                this.XDescPos = 2370;
+                this.YDescPos = 945;
                 this.prjgit = 'Click G'
                 this.desc = 'Implemented a secure CI/CD pipeline for deploying containerized applications using Docker, Jenkins, SonarQube, Trivy, Kubernetes, and GitOps.';
             }else if(this.PrjPlanetIndex == 3){
-                this.XDescPos = 1500;
-                this.YDescPos = 1050;
+                this.XDescPos = 1512;
+                this.YDescPos = 1181;
                 this.prjgit = 'Click G'
                 this.desc = 'Developed Ninga, a Unity-based video game using C# and Python (cv2) for camera-based finger tracking.';
             }
+        }else if(this.isColliding(this.character, this.skills)  && this.discoverSkillsPlanet){
+            this.showDesc = !this.showDesc;
+            this.DescFontSize = 15;
+            this.prjgit = 'Unavailable';
+            if(this.SkillsPlanetIndex == 1){
+                this.XDescPos = 1075;
+                this.YDescPos = 1065;
+                this.desc = 'Python, C#\nC++, C\nPHP, JavaScript\nTypeScript, Dart\nJava.';
+            }else if(this.SkillsPlanetIndex == 2){
+                this.XDescPos = 935;
+                this.YDescPos = 1308;
+                this.desc = 'React, Django\nAngular, Tailwind\nHTML5, CSS3\nNode.js, Express.js';
+            }else if(this.SkillsPlanetIndex == 3){
+                this.XDescPos = 295;
+                this.YDescPos = 1308;
+                this.desc = 'Flutter, Windows\nApplications, Unity';
+            }else if(this.SkillsPlanetIndex == 4){
+                this.XDescPos = 155;
+                this.YDescPos = 1065;
+                this.desc = 'PostgreSQL, MySQL\nMongoDB';
+            }else if(this.SkillsPlanetIndex == 5){
+                this.XDescPos = 295;
+                this.YDescPos = 822;
+                this.desc = 'Docker, Kubernetes\nJenkins, Gitlab\nSonarQube\nGit, Github\nTrivy\nGitOps\nAWS, Microsoft Azure';
+            }else if(this.SkillsPlanetIndex == 6){
+                this.XDescPos = 935;
+                this.YDescPos = 822;
+                this.desc = 'Photoshop, Adobe Illustrator\nPremiere Pro, Adobe Animate';
+            }
         }
+
     }
 
     if(event.key === 'g' && this.showDesc){

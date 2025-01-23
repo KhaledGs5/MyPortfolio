@@ -313,7 +313,7 @@ Projects
         position: absolute;
         text-align: center;
         font-size: 10px;
-        transition: all 0.8s;
+        transition: left 0.8s, top 0.8s, opacity 0.8s, border 0.2s;
         align-items: center;
         display: flex;
         justify-content: center;
@@ -327,9 +327,11 @@ Projects
     [ngStyle]="{
         'width': '100px',
         'height': '100px',
-        'top' : (discoverSkillsPlanet ? (calculatePosition(25, 300, 650,1150,i).y) + 'px' : '1150px'),
-        'left' : (discoverSkillsPlanet ? (calculatePosition(25, 300, 650,1150,i).x) + 'px' : '650px'),
+        'top' : (discoverSkillsPlanet ? (calculatePosition(60, 300, 665,1165,i).y) + 'px' : '1150px'),
+        'left' : (discoverSkillsPlanet ? (calculatePosition(60, 300, 665,1165,i).x) + 'px' : '650px'),
         'opacity': (discoverSkillsPlanet ? '1' : '0.1'),
+        'border': ((skill.sel == SkillsPlanetIndex) ? '2px solid white' : ''),
+        'border-radius': '50%',
     }"
     style="
         background-image: url(../../assets/SkillsKid.png);
@@ -338,11 +340,14 @@ Projects
         position: absolute;
         text-align: center;
         font-size: 10px;
-        transition: all 0.8s;
+        transition: left 0.8s, top 0.8s, opacity 0.8s, border 0.2s;
         align-items: center;
         display: flex;
         justify-content: center;
     ">
+    <div *ngIf="skill.sel === SkillsPlanetIndex" style="font-size: 12px; font-weight: bold; font-family: MyFont; color: aliceblue; position: absolute; top: -20px;">
+        {{ ! showDesc ? 'Click E' : 'Hide With E' }}
+    </div>
     <img [src]="skill.image" [alt]="skill.name" style="width: 100%; height: 100%; object-fit: contain;">
 </div>
 
@@ -355,7 +360,7 @@ Projects
         'top' : (discoverProjectPlanet ? (calculatePosition(project.angle, project.radius, 2040,1240,project.index).y) + 'px' : '1215px'),
         'left' : (discoverProjectPlanet ? (calculatePosition(project.angle, project.radius, 2040,1240,project.index).x) + 'px' : '2015px'),
         'opacity': (discoverProjectPlanet ? '1' : '0'),
-        'transition': discoverProjectPlanet ? 'opacity 1.5s ease-in, left 0.8s, top 0.8s, width 1s ease-in, height 1s ease-in' : 'opacity 0.8s ease-out,left 0.8s, top 0.8s, width 1s ease-out, height 1s ease-out',
+        'transition': discoverProjectPlanet ? 'opacity 1.5s ease-in, left 0.8s, top 0.8s, width 1s ease-in, border 0.2s, height 1s ease-in' : 'opacity 0.8s ease-out,left 0.8s, top 0.8s, width 1s ease-out, height 1s ease-out',
         'border': ((project.sel == PrjPlanetIndex) ? '2px solid white' : ''),
         'border-radius': '50%',
     }"
@@ -398,17 +403,18 @@ Projects
         'padding': '45px',
         'box-sizing': 'border-box',
         'box-shadow': '0px 0px 5px rgba(0, 0, 0, 0.2)',
-        'font-size': '10px',
+        'font-size': DescFontSize + 'px',
         'font-weight': 'bold',
         'font-family': 'MyFont',
         'text-align': 'center',
         'color': 'aliceblue',
+        'white-space': 'pre-line',
     }"
 >
 <div>
     {{ desc }}
 </div>
-<div style="
+<div *ngIf="prjgit !== 'Unavailable'" style="
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -444,6 +450,12 @@ Projects
 </div>
 <div class="Ground" id="Grd2">
 </div>
+
+
+
+<!-- <div *ngIf="showPlayButton" class="play-overlay">
+    <button (click)="startAudio()">Allow Sounds</button>
+</div> -->
 
 
 
