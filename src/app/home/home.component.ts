@@ -118,26 +118,76 @@ export class HomeComponent implements OnInit {
 
   // Sounds
 
-  audio = new Audio();
-  showPlayButton = true;
+  BackgroundAudio = new Audio();
+  Walking = new Audio();
+  Flying = new Audio();
+  Landing = new Audio();
+  Discover = new Audio();
 
-//   startAudio(): void {
-//     this.audio.src = '../../assets/SpaceSound.mp3'; // Path to your sound file
-//     this.audio.load();
-//     this.audio.loop = true; // Enable looping
-//     this.audio
-//       .play()
-//       .then(() => {
-//         this.showPlayButton = false; // Hide the play button after starting audio
-//       })
-//       .catch((error) => console.error('Error playing sound:', error));
-//   }
+  PlayWalkingSound(): void {
+    if (this.Walking.paused) {
+      this.Walking.src = '../../assets/WalkingAudio.mp3';
+      this.Walking.load();
+      this.Walking.play();
+      this.Walking.playbackRate = 1.8;
+    }
+  }
+  
+  StopWalkingSound(): void {
+    this.Walking.pause();
+  }
+
+  PlayFlyingSound(): void {
+    if (this.Flying.paused) {
+      this.Flying.src = '../../assets/FlyingAudio.mp3';
+      this.Flying.load();
+      this.Flying.play();
+      this.Flying.playbackRate = 1.8;
+      this.Flying.loop = true;
+    }
+  }
+  
+  StopFlyingSound(): void {
+    this.Flying.pause();
+    this.Flying.currentTime = 0;
+  }
+
+  PlayLandingSound(): void {
+    if (this.Landing.paused) {
+      this.Landing.src = '../../assets/LandingAudio.mp3';
+      this.Landing.load();
+      this.Landing.play();
+      this.Landing.playbackRate = 1.8;
+      this.Landing.loop = true;
+    }
+  }
+  
+  StopLandingSound(): void {
+    this.Landing.pause();
+    this.Landing.currentTime = 0;
+  }
+
+  PlayDiscoverSound(): void {
+    if (this.Discover.paused) {
+      this.Discover.src = '../../assets/Discover.mp3';
+      this.Discover.load();
+      this.Discover.play();
+      this.Discover.playbackRate = 1.8;
+      this.Discover.volume = 0.5;
+    }
+  }
   
   ngOnInit(): void {
     this.greet = true; 
     this.MissionEndTime = performance.now() + 990; 
     this.updatePosition();
     this.getAnimationClass();
+    this.BackgroundAudio.src = '../../assets/Space.mp3';
+    this.BackgroundAudio.load();
+    this.BackgroundAudio.loop = true; 
+    this.BackgroundAudio
+      .play()
+      .catch((error) => console.error('Error playing sound:', error));
 
     this.character = document.querySelector('#Character') as HTMLElement;
     this.ground = document.querySelector('.Ground') as HTMLElement;
@@ -300,12 +350,16 @@ export class HomeComponent implements OnInit {
     if (this.keyState['Enter']){
         this.showDesc = false;
         if(this.inSkillsPlanet){
+            this.PlayDiscoverSound();
             this.discoverSkillsPlanet =!this.discoverSkillsPlanet;
         }else if (this.inEductPlanet){
+            this.PlayDiscoverSound();
             this.discoverEductPlanet =!this.discoverEductPlanet;
         }else if (this.inExpPlanet){
+            this.PlayDiscoverSound();
             this.discoverExpPlanet =!this.discoverExpPlanet;
         }else if (this.inProjectPlanet) {
+            this.PlayDiscoverSound();
             this.discoverProjectPlanet =!this.discoverProjectPlanet;
         }
     }else if(!this.inPlanet){
@@ -384,7 +438,6 @@ export class HomeComponent implements OnInit {
                 this.desc = 'Photoshop, Adobe Illustrator\nPremiere Pro, Adobe Animate';
             }
         }
-
     }
 
     if(event.key === 'g' && this.showDesc){
@@ -475,19 +528,37 @@ export class HomeComponent implements OnInit {
 
     if (this.keyState['z']) {
         this.ypos = Math.max(this.ypos - this.step - 2, 0);
+        this.isGrounded = false;
+        this.PlayFlyingSound();
+        this.StopWalkingSound();
+    }else{
+        this.StopFlyingSound();
     }
     if (this.keyState['s']) {
         this.ypos = Math.min(this.ypos + this.step + 2, 1760);
+        this.isGrounded = false;
     }
     if (this.keyState['q']) {
         this.xpos = Math.max(this.xpos - this.step - this.Xoffset, 0);
         this.scale = 1;
+        if(this.isGrounded && !this.isFloating){
+            this.PlayWalkingSound();
+        }
     }
     if (this.keyState['d']) {
         this.xpos = Math.min(this.xpos + this.step + this.Xoffset, 2800);
         this.scale = -1;
+        if(this.isGrounded && !this.isFloating){
+            this.PlayWalkingSound();
+        }
+    }else if(!this.keyState['d'] && !this.keyState['q']){
+        this.StopWalkingSound();
     }
-
+    if(!this.isFloating && !this.isGrounded){
+        this.PlayLandingSound();
+    }else{
+        this.StopLandingSound();
+    }
     if (this.keyState['f']) {
         this.seeinfo = true;
         this.InfoWidth = 50;
