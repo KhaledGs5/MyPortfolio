@@ -377,7 +377,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.keyState['e']){
-        this.PlayDiscoverSound();
+        this.PlayChangeSound();
         if(this.isColliding(this.character, this.experience) && this.discoverExpPlanet){
             this.showDesc = !this.showDesc;
             this.DescFontSize = 12;
