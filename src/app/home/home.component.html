@@ -9,8 +9,18 @@
         'top': ypos + 'px', 
         'transform': 'scaleX(' + scale + ') rotate(' + -rotangle + 'deg)', 
         'background-image': 'url(\'assets/' + sprite + '\')',
+        'display': 'flex',
+        'justify-content': 'center',
     }"
     [ngClass]="getAnimationClass()">
+    <div *ngIf="!seeinfo && !inPlanet"     
+    [ngStyle]="{ 
+        'transition' : 'all 0.2s',
+        'color': 'aliceblue',
+        'font-family': 'MyFont',
+        'transform': 'scaleX(' + scale + ') rotate(' + -rotangle + 'deg)', 
+        'margin-top' : '20px',
+    }">Hold F</div>
 </div>
 <div id="Message"
     [ngStyle]="{ 
@@ -44,7 +54,7 @@
             Hello&nbsp;I'm&nbsp;Khaled&nbsp;Gassara,&nbsp;a <br>
             third-year&nbsp;student&nbsp;at&nbsp;the&nbsp;National <br>
             School&nbsp;of&nbsp;Computer&nbsp;Science&nbsp;(ENSI),<br>Tunisia.<br><br>
-            <a style="text-decoration: none; color: antiquewhite;">&nbsp;&nbsp;Tel&nbsp;:&nbsp;+216&nbsp;50&nbsp;424&nbsp;900</a>
+            <a style="text-decoration: none; color: antiquewhite;">&nbsp;&nbsp;Phone&nbsp;:&nbsp;+216&nbsp;50&nbsp;424&nbsp;900</a>
         </p>
     </div>
 

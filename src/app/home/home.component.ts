@@ -538,6 +538,7 @@ export class HomeComponent implements OnInit {
         this.ypos = Math.max(this.ypos - this.step - 2, 0);
         this.isGrounded = false;
         this.PlayFlyingSound();
+        this.StopLandingSound();
         this.StopWalkingSound();
     }else{
         this.StopFlyingSound();
@@ -545,6 +546,7 @@ export class HomeComponent implements OnInit {
     if (this.keyState['s']) {
         this.ypos = Math.min(this.ypos + this.step + 2, 1760);
         this.isGrounded = false;
+        this.StopLandingSound();
     }
     if (this.keyState['q']) {
         this.xpos = Math.max(this.xpos - this.step - this.Xoffset, 0);
